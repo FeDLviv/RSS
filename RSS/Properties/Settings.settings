@@ -1,0 +1,36 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="RSS.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="CURRENT_URL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://football.ua/rss2.ashx</Value>
+    </Setting>
+    <Setting Name="IS_PROXY" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="PROXY_IP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.1.4</Value>
+    </Setting>
+    <Setting Name="PROXY_PORT" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">3128</Value>
+    </Setting>
+    <Setting Name="IS_AUTHENTICATION" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="PROXY_USER" Type="System.String" Scope="User">
+      <Value Profile="(Default)">boss</Value>
+    </Setting>
+    <Setting Name="PROXY_PASSWORD" Type="System.String" Scope="User">
+      <Value Profile="(Default)">393735ws</Value>
+    </Setting>
+    <Setting Name="URL_LIST" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;http://football.ua/rss2.ashx&lt;/string&gt;
+  &lt;string&gt;http://ru.uefa.com/rssfeed/news/rss.xml&lt;/string&gt;
+  &lt;string&gt;https://www.championat.com/rss/news/football&lt;/string&gt;
+  &lt;string&gt;http://k.img.com.ua/rss/ru/all_news2.0.xml&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

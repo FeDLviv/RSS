@@ -1,0 +1,170 @@
+﻿<metro:MetroWindow x:Class="RSS.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:control="clr-namespace:RSS.View.Control"
+        xmlns:converter="clr-namespace:RSS.View.Converter"
+        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:metroDialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        Width="600" Height="400" WindowStartupLocation="CenterScreen" Title="{Binding Path=Title}"
+        RightWindowCommandsOverlayBehavior="HiddenTitleBar" SaveWindowPosition="True" BorderThickness="2"
+        BorderBrush="{DynamicResource AccentColorBrush}" metroDialog:DialogParticipation.Register="{Binding}">
+    <metro:MetroWindow.Resources>
+        <converter:DoubleBoolConverter x:Key="DoubleBoolConverter" />
+        <converter:ImageConverter x:Key="ImageConverter" />
+    </metro:MetroWindow.Resources>
+    <metro:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <Grid Margin="2" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Background="Transparent"
+                  RenderOptions.EdgeMode="Aliased" RenderOptions.BitmapScalingMode="HighQuality">
+                <Rectangle>
+                    <Rectangle.Fill>
+                        <VisualBrush Visual="{iconPacks:PackIconMaterial Rss}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Grid>
+        </DataTemplate>
+    </metro:MetroWindow.IconTemplate>
+    <metro:MetroWindow.Flyouts>
+        <metro:FlyoutsControl>
+            <metro:Flyout Header="НАЛАШТУВАННЯ" Position="Right" IsOpen="{Binding Path=ShowSettings}" MinWidth="250"
+                          CloseCommand="{Binding Path=CloseSettingsCommand}"
+                          Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type metro:MetroWindow}}, Path=ActualWidth}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Margin="5,0" Content="RSS:" />
+                        <ComboBox Grid.Row="0" Grid.Column="1" Margin="5,0" ItemsSource="{Binding Path=UrlList}" 
+                                  SelectedItem="{Binding Path=CurrentUrl}"/>
+                        <Button Grid.Row="0" Grid.Column="2" Margin="5,0" Width="24" Height="24" ToolTip="Додати RSS" 
+                                Style="{DynamicResource SquareButtonStyle}" 
+                                Content="{iconPacks:PackIconMaterial Plus, Width=10, Height=10}"
+                                Command="{Binding AddRssCommand}" />
+                        <Button Grid.Row="0" Grid.Column="3" Margin="5,0" Width="24" Height="24" ToolTip="Видалити RSS" 
+                                Style="{DynamicResource SquareButtonStyle}" 
+                                Content="{iconPacks:PackIconMaterial Minus, Width=10, Height=10}"
+                                Command="{Binding DeleteRssCommand}" />
+                        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="0,5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+                            <CheckBox x:Name="ProxyCheckBox" Grid.Row="0" Grid.Column="0" Margin="2,5" Content="ПРОКСІ" 
+                                      IsChecked="{Binding Path=IsProxy}" />
+                            <Label Grid.Row="1" Grid.Column="0" Margin="5,2" Content="Proxy IP:" />
+                            <TextBox Grid.Row="1" Grid.Column="1" Margin="5,2" VerticalContentAlignment="Center"
+                                     metro:TextBoxHelper.Watermark="ПРОКСІ IP" 
+                                     metro:TextBoxHelper.ClearTextButton="True" 
+                                     Text="{Binding Path=ProxyIP}" IsEnabled="{Binding ElementName=ProxyCheckBox, Path=IsChecked}" />
+                            <Label Grid.Row="2" Grid.Column="0" Margin="5,2" Content="Proxy port:" />
+                            <TextBox Grid.Row="2" Grid.Column="1" Margin="5,2" VerticalContentAlignment="Center"
+                                     metro:TextBoxHelper.Watermark="ПРОКСІ ПОРТ" 
+                                     metro:TextBoxHelper.ClearTextButton="True" 
+                                     Text="{Binding Path=ProxyPort}" IsEnabled="{Binding ElementName=ProxyCheckBox, Path=IsChecked}" />
+                            <CheckBox x:Name="AuthenticationCheckBox" Grid.Row="3" Grid.Column="0" Margin="5,2" Content="АВТЕНТИФІКАЦІЯ" 
+                                      IsChecked="{Binding Path=IsAuthentication}" IsEnabled="{Binding ElementName=ProxyCheckBox, Path=IsChecked}" />
+                            <Label Grid.Row="4" Grid.Column="0" Margin="5,2" Content="Proxy user:" />
+                            <TextBox Grid.Row="4" Grid.Column="1" Margin="5,2" VerticalContentAlignment="Center"
+                                     metro:TextBoxHelper.Watermark="ПРОКСІ КОРИСТУВАЧ" 
+                                     metro:TextBoxHelper.ClearTextButton="True" 
+                                     Text="{Binding Path=ProxyUser}">
+                                <TextBox.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource DoubleBoolConverter}">
+                                        <Binding  ElementName="ProxyCheckBox" Path="IsChecked" />
+                                        <Binding  ElementName="AuthenticationCheckBox" Path="IsChecked" />
+                                    </MultiBinding>
+                                </TextBox.IsEnabled>
+                            </TextBox>
+                            <Label Grid.Row="5" Grid.Column="0" Margin="5,2" Content="Proxy password:" />
+                            <control:ProxyPasswordBox Grid.Row="5" Grid.Column="1" Margin="5,2">
+                                <control:ProxyPasswordBox.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource DoubleBoolConverter}">
+                                        <Binding  ElementName="ProxyCheckBox" Path="IsChecked" />
+                                        <Binding  ElementName="AuthenticationCheckBox" Path="IsChecked" />
+                                    </MultiBinding>
+                                </control:ProxyPasswordBox.IsEnabled>
+                            </control:ProxyPasswordBox>
+                            <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Width="50" Height="50" 
+                                    HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="Зберегти та оновити" 
+                                    Style="{DynamicResource MetroCircleButtonStyle}" 
+                                    Content="{iconPacks:PackIconMaterial Update, Width=24, Height=24}" 
+                                    Command="{Binding Path=UpdateCommand}" />
+                        </Grid>
+                    </Grid>
+                </ScrollViewer>
+            </metro:Flyout>
+        </metro:FlyoutsControl>
+    </metro:MetroWindow.Flyouts>
+    <metro:MetroWindow.RightWindowCommands>
+        <metro:WindowCommands>
+            <ToggleButton Content="Налаштування" Cursor="Hand" IsChecked="{Binding Path=ShowSettings}" />
+        </metro:WindowCommands>
+    </metro:MetroWindow.RightWindowCommands>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListBox Grid.Row="0" ItemsSource="{Binding RssFeedList}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock ToolTip="{Binding Path=Comment}">
+                            <Run Text="{Binding Path=Date}" />
+                            <Run Text="   " />
+                            <Hyperlink NavigateUri="{Binding Path=Url}"
+                                       Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}, Path=DataContext.LoadSiteCommand}"
+                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=NavigateUri}">
+                                <TextBlock Text="{Binding Path=Title}" />
+                            </Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Image Grid.Row="1" Margin="0,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Stretch="None" 
+               Source="{Binding Image, Converter={StaticResource ImageConverter}}" />        
+        <metro:ProgressRing Grid.Row="0" Grid.RowSpan="2" Opacity="0" IsActive="{Binding Path=IsWork}">
+            <metro:ProgressRing.Style>
+                <Style>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsWork}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard TargetProperty="Opacity">
+                                        <DoubleAnimation BeginTime="00:00:01" To="1" Duration="00:00:02" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard TargetProperty="Opacity" FillBehavior="Stop">
+                                        <DoubleAnimation To="0" Duration="00:00:00" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </metro:ProgressRing.Style>
+        </metro:ProgressRing>
+    </Grid>
+</metro:MetroWindow>
